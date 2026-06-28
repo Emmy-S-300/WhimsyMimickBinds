@@ -19,13 +19,37 @@ def parse_story_html(html_content):
     #Use BeautifulSoup to parse the html and create a searchable object
     soup = BeautifulSoup(html_content, "html.parser")
 
+    #create a dictionary to store story data in
+    story_data = {
+        "title": "",
+        "author":"",
+        "chapters":[],
+        }
+   
     #find the 1st h1 elemnt and extract only its text
-    title = soup.find("h1").get_text(strip=True)
+    story_title = soup.find("h1").get_text(strip=True)
+    #add title to the dictionary
+    story_data["title"] = story_title
 
-    #print the variable
-    print(title)
+    # find the author and extract only the text
+    story_author = soup.find("a", {"rel": "author"}).get_text(strip=True)
+    #add the author to the dictionary
+    story_data["author"] = story_author
+
+
+
+    #return the dictionary
+    return story_data
+
+    
 
 # read the sample html
 html = read_html_file("sample.html")
+
 #parse the html
 parse_story_html(html)
+
+#store the dictionary in a variable
+story = parse_story_html(html)
+
+print(story)
